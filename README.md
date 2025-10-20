@@ -28,26 +28,40 @@ Some key columns include:
 
 ### 2. **Handling Missing Values**
 - **Sub-theme:** 3557 blanks were detected. Selected blanks using `Ctrl+G → Special → Blanks`.  
-  → Replaced blanks with the label `"Unspecified`.
-    Subtheme had 3,557 missing values (~19%). A temporal pattern was observed between 1997–2002, primarily in the Normal category, indicating that these sets were released without a defined subtheme. To reflect this business reality, blanks were imputed with the label ‘Unspecified’ rather than ‘Unknown’
- **Theme Group:**
-  Theme Group had 2 blank values out of 18,458 rows. Since subtheme was already labeled ‘Unspecified’ for these records and ‘Unspecified’ subthemes occur across multiple theme groups, the blanks were imputed with ‘Unspecified’ to maintain dashboard consistency.”
+→ Replaced blanks with the label `"Unspecified`.	Classified as likely MNAR (Missing Not At Random).
+  Subtheme had 3,557 missing values (~19%). A temporal pattern was observed between 1997–2002, primarily in the Normal category, indicating that these sets were released without a defined subtheme. To reflect
+  this business reality, blanks were imputed with the label ‘Unspecified’ rather than ‘Unknown’
+  
+ - **Theme Group:**
+ → Theme Group had 2 blank values out of 18,458 rows. Since subtheme was already labeled ‘Unspecified’ for these records and ‘Unspecified’ subthemes occur across multiple theme groups, the blanks were imputed
+   with ‘Unspecified’ to maintain dashboard consistency.”
+
+-**Category:**
+ → The Category column contained three major values: Normal, Extended, and Random. An exploratory check against Theme and Subtheme showed no meaningful relationship for ‘Random’. Given its substantial count,        ‘Random’ was retained as a separate valid category rather than merged or dropped
+
+
 - **Pieces:** 3,924 missing values.  
   → Decided **not to impute with `0`** since sets are supposed to have pieces.  
-  → Left as missing for now (may explore advanced imputation later).
+  → Handling Zero & Blank Values in pieces Column, The pieces column contained both blank values and zeros, mainly for themes like Books and Gear where piece counts are not applicable.
+  → To make this consistent, I created a new column **Pieces_Status** using the formula: =IF(OR(ISBLANK(A2),A2=0),"Not Applicable","Has Pieces")
+    Has Pieces → when the set has a non-zero piece count, Not Applicable → when the value is blank or zero. This helped standardize non-buildable sets and simplified filtering, grouping, and visualization in
+    PivotTables and dashboards.
 
-- **Minifigs:** ~8,400 blanks.  
+- **Minifigs:** ~10058 are blanks.  
   → Missing values make sense (many sets have no minifigs).  
-  → Left blanks as is.
+  → Left blanks as is. I created additional status column (minifigs_status) for minifigs These flags help distinguish between records with valid data and those with blanks,
+    making downstream analysis more robust.
 
 - **Age Range:** 11,671 blanks.  
   → Left missing, will analyze later to see if imputation is needed.
+  → To improve data quality and make missing values explicit, I created additional status column agerange_min_status. These flags helps in distinguishing between records with valid data and those with blanks,        making downstream analysis more robust.
 
-- **US_retailPrice:** Added a helper column (`price_flag`) with the formula:
+- **US_retailPrice:** 11,476 blanks, Added a helper column (`US_retailprice_status`) with the formula:
   ```excel
-  =IF(ISBLANK([@[US_retailPrice]]), "Missing", "Available")
+  =IF(TRIM([@[US_retailPrice]])="", "Missing", "Available") to classify values as either Missing or Available. Additionally,I converted US_retailPrice to a numeric datatype to ensure accurate aggregation and        visualization in PivotTables and dashboards.
 → Fixed formula issues caused by spaces in column name by using structured references correctly.
 
+ 
 ### 3. **Duplicates & Consistency Checks**
 •	Checked and removed duplicates in set_id column.
 •	Confirmed counts before and after removal matched expected results.
@@ -61,22 +75,12 @@ o	missing_minifigs
 o	missing_agerange
 o	missing_price
 
- Data Cleaning — LEGO Dataset
-1. Initial Column Review & Missing Data Identification
-•	Identified key columns with missing values:
-o	sub_theme → 3,924 missing values
-o	minifigs → ~8,400 missing values
-o	agerange_min → 11,671 missing values
-o	US_retailPrice → some blanks detected (further validated with LEN(TRIM()))
-o	bricksetURL, thumbnailURL, imageURL → web link columns (mostly populated)
-•	Confirmed presence of records from 1970–2022 (time span check).
-________________________________________
+ 
 2. Missing Value Strategy
 •	sub_theme:
 o	Initially tried blank selection in Excel (Ctrl + G → Special → Blanks).
 o	Considered imputation but logically decided not to use 0 (since LEGO sets must have pieces).
-o	Classified as likely MNAR (Missing Not At Random).
-o	Final decision: leave blanks as is or tag as "Missing Pieces" label if needed for modeling.
+o
 •	minifigs:
 o	Majority of values are missing → but this is expected (many LEGO sets don’t include minifigs).
 o	Decision: leave blanks as "0" or "No Minifigs" depending on downstream use.
