@@ -74,13 +74,12 @@ o	missing_pieces
 o	missing_minifigs
 o	missing_agerange
 o	missing_price
-
  
-2. Missing Value Strategy
+• ** Missing Value Strategy **
 •	sub_theme:
 o	Initially tried blank selection in Excel (Ctrl + G → Special → Blanks).
 o	Considered imputation but logically decided not to use 0 (since LEGO sets must have pieces).
-o
+
 •	minifigs:
 o	Majority of values are missing → but this is expected (many LEGO sets don’t include minifigs).
 o	Decision: leave blanks as "0" or "No Minifigs" depending on downstream use.
@@ -90,23 +89,22 @@ o	No imputation applied yet.
 •	US_retailPrice:
 o	Found hidden blanks (some cells look empty but aren’t truly blank).
 o	Switched to:
-o	=IF(LEN(TRIM([@US_retailPrice]))=0,"Missing","Available")
-to correctly flag missing values.
-________________________________________
-3. Data Type Adjustments
-•	Converted columns to proper datatypes:
+o	=IF(LEN(TRIM([@US_retailPrice]))=0,"Missing","Available") to correctly flag missing values.
+
+• Data Type Adjustments
+  Converted columns to proper datatypes:
 o	bricksetURL, thumbnailURL, imageURL → set as General (URL links) for uniform handling.
-•	Checked numeric columns like pieces, minifigs, and US_retailPrice to ensure proper numeric formatting.
-________________________________________
-4. Quality Check / Notes for Next Steps
-•	⚠️ Be mindful: adding many derived columns may increase table size but is fine during cleaning — drop or archive derived columns later if needed.
+  Checked numeric columns like pieces, minifigs, and US_retailPrice to ensure proper numeric formatting.
+
+### 5. Quality Check / Notes for Next Steps
+•	Be mindful: adding many derived columns may increase table size but is fine during cleaning — drop or archive derived columns later if needed.
 •	Potential next steps:
 o	Handle missing values for modeling (decide on 0, "Missing", median, or leave as null depending on the column).
 o	Consider feature engineering (e.g., price per piece, minifigs per set).
 o	Validate outliers (e.g., unusually high prices or piece counts).
 o	Standardize categorical columns (e.g., theme, sub_theme).
-________________________________________
-✅ Outcome after Step 1:
+
+**Outcome after above steps**
 •	All key columns reviewed.
 •	Missing data assessed with logical reasoning per column.
 •	Data types standardized for URL and numeric fields.
