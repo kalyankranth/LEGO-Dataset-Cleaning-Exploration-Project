@@ -27,8 +27,9 @@ Some key columns include:
 - Checked `year` and `name` columns for missing or incorrect values — none found.
 
 ### 2. **Handling Missing Values**
-- **Sub-theme:** ~4,000 blanks were detected. Selected blanks using `Ctrl+G → Special → Blanks`.  
-  → Replaced blanks with the label `"Unknown"`.
+- **Sub-theme:** 3557 blanks were detected. Selected blanks using `Ctrl+G → Special → Blanks`.  
+  → Replaced blanks with the label `"Unspecified`.
+    Subtheme had 3,557 missing values (~19%). A temporal pattern was observed between 1997–2002, primarily in the Normal category, indicating that these sets were released without a defined subtheme. To reflect this business reality, blanks were imputed with the label ‘Unspecified’ rather than ‘Unknown’
   
 - **Pieces:** 3,924 missing values.  
   → Decided **not to impute with `0`** since sets are supposed to have pieces.  
