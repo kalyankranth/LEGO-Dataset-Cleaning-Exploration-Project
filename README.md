@@ -30,7 +30,8 @@ Some key columns include:
 - **Sub-theme:** 3557 blanks were detected. Selected blanks using `Ctrl+G → Special → Blanks`.  
   → Replaced blanks with the label `"Unspecified`.
     Subtheme had 3,557 missing values (~19%). A temporal pattern was observed between 1997–2002, primarily in the Normal category, indicating that these sets were released without a defined subtheme. To reflect this business reality, blanks were imputed with the label ‘Unspecified’ rather than ‘Unknown’
-  
+ **Theme Group:**
+  Theme Group had 2 blank values out of 18,458 rows. Since subtheme was already labeled ‘Unspecified’ for these records and ‘Unspecified’ subthemes occur across multiple theme groups, the blanks were imputed with ‘Unspecified’ to maintain dashboard consistency.”
 - **Pieces:** 3,924 missing values.  
   → Decided **not to impute with `0`** since sets are supposed to have pieces.  
   → Left as missing for now (may explore advanced imputation later).
