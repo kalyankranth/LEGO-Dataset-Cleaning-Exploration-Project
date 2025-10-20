@@ -57,10 +57,13 @@ Some key columns include:
   → To improve data quality and make missing values explicit, I created additional status column agerange_min_status. These flags helps in distinguishing between records with valid data and those with blanks,        making downstream analysis more robust.
 
 - **US_retailPrice:** 11,476 blanks, Added a helper column (`US_retailprice_status`) with the formula:
-  ```excel
-  =IF(TRIM([@[US_retailPrice]])="", "Missing", "Available") to classify values as either Missing or Available. Additionally,I converted US_retailPrice to a numeric datatype to ensure accurate aggregation and        visualization in PivotTables and dashboards.
-→ Fixed formula issues caused by spaces in column name by using structured references correctly.
-
+  =IF(TRIM([@[US_retailPrice]])="", "Missing", "Available")
+  to classify values as either Missing or Available. Additionally,I converted US_retailPrice to a numeric datatype to ensure accurate aggregation and visualization in PivotTables and dashboards.
+  → Fixed formula issues caused by spaces in column name by using structured references correctly.
+  
+- **bricksetURL, thumbnailURL, and imageURL columns:**
+  →The dataset contains URLs for brickset, thumbnail, and image; thumbnailURL and imageURL have missing values for the same sets, while bricksetURL is complete
+  → During data cleaning, a helper column thumbnail_image_status was added to indicate whether both thumbnailURL and imageURL were missing for a set. All missing entries occur for the same sets.
  
 ### 3. **Duplicates & Consistency Checks**
 •	Checked and removed duplicates in set_id column.
