@@ -73,17 +73,17 @@ Some key columns include:
 ### 4. **Standardizing Columns**
 •	Replaced ? or Unnamed values in name column with "Unknown".
 •	Created helper columns to flag missingness for key fields:
-o	missing_pieces
-o	missing_minifigs
-o	missing_agerange
-o	missing_price
+missing_pieces
+missing_minifigs
+missing_agerange
+missing_price
  
-• ** Missing Value Strategy **
+• **Missing Value Strategy**
 •	sub_theme:
 o	Initially tried blank selection in Excel (Ctrl + G → Special → Blanks).
 o	Considered imputation but logically decided not to use 0 (since LEGO sets must have pieces).
 
-•	minifigs:
+•	**minifigs**:
 o	Majority of values are missing → but this is expected (many LEGO sets don’t include minifigs).
 o	Decision: leave blanks as "0" or "No Minifigs" depending on downstream use.
 •	agerange_min:
