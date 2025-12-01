@@ -1,115 +1,158 @@
-# LEGO-Dataset-Cleaning-Exploration-Project
-LEGO sets dataset (1970–2022): Data cleaning, exploratory analysis, and dashboarding in Excel.
+***LEGO Dataset — Cleaning, Exploration & Excel Dashboard Project***
+**LEGO sets dataset (1970–2022): End-to-end data cleaning, exploratory analysis, and dashboarding in Excel**
+**📌 Project Overview**
+This project focuses on cleaning, organizing, analyzing, and visualizing a large LEGO dataset containing 18,458 sets released between 1970 and 2022.
+The goal was to transform raw, inconsistent data into a high-quality analytical dataset and build an interactive Excel dashboard that reveals pricing trends, theme popularity, and product evolution over time.
 
-## Project Overview
-This project focuses on cleaning, organizing, and preparing a LEGO dataset for further analysis and visualization.  
-The goal is to make the dataset structured, consistent, and ready for use in future data analytics or machine learning workflows.  
-The data contains information about LEGO sets released from **1970 to 2022**, including details like name, set ID, sub-theme, price, number of pieces, minifigures, and more.
+**📁 Dataset Description**
+The dataset includes information such as:
+set_id — Unique identifier
+name — LEGO set name
+year — Release year
+theme / sub_theme — Product categorization
+pieces — Number of pieces
+minifigs — Number of minifigures
+age_range — Recommended age
+US_retailPrice — Retail price
+URLs — bricksetURL, thumbnailURL, imageURL
+The raw file contained:
+Missing values (categorical & numeric)
+Mixed data types
+Incorrect date parsing
+Empty text fields
+Zero/blank values that required interpretation
+Inconsistent formatting across columns
 
-## Dataset Description
-The dataset initially had **18,458 rows** and multiple columns with mixed data types and missing values.  
-Some key columns include:
-- `set_id` — Unique identifier of each LEGO set  
-- `name` — Name of the LEGO set  
-- `year` — Year of release (1970–2022)  
-- `sub_theme` — Sub-theme of the set (many missing values)  
-- `pieces` — Number of pieces in the set  
-- `minifigs` — Number of minifigures (many sets don’t have any)  
-- `age_range` — Recommended age range (many missing values)  
-- `US_retailPrice` — Retail price in USD  
-- `bricksetURL`, `thumbnailURL`, `imageURL` — Reference links for each set
+**Data Cleaning Process**
+The cleaning was completed entirely in Excel using formulas, structured references, helper columns, and consistent validation steps.
+Below is the professional summary included in the README.
+1. Initial Formatting
+Converted set_id from misinterpreted Date → General.
+Ensured URL fields were stored as General (not hyperlinks).
+Validated core identifiers — no missing year or name.
 
-## Data Cleaning Steps
+2. Handling Missing Values (Column-wise Strategy)
+🔹 Sub-theme (3,557 missing)
+Missingness showed a temporal pattern between 1997–2002
+Classified as MNAR (Missing Not At Random)
+Imputed with "Unspecified" to reflect business reality (sets released without defined subthemes)
 
-### 1. **Initial Formatting**
-- Converted `set_id` column from *Date* format to **General** to fix misinterpretation of IDs.
-- Ensured columns with web links (`bricksetURL`, `thumbnailURL`, `imageURL`) were set to **General** type to avoid hyperlink formatting issues.
-- Checked `year` and `name` columns for missing or incorrect values — none found.
+🔹 Theme Group (2 missing)
+Imputed with “Unspecified” for consistency with the Sub-theme decision.
 
-### 2. **Handling Missing Values**
-- **Sub-theme:** 3557 blanks were detected. Selected blanks using `Ctrl+G → Special → Blanks`.  
-→ Replaced blanks with the label `"Unspecified`.	Classified as likely MNAR (Missing Not At Random).
-  Subtheme had 3,557 missing values (~19%). A temporal pattern was observed between 1997–2002, primarily in the Normal category, indicating that these sets were released without a defined subtheme. To reflect
-  this business reality, blanks were imputed with the label ‘Unspecified’ rather than ‘Unknown’
-  
- - **Theme Group:**
- → Theme Group had 2 blank values out of 18,458 rows. Since subtheme was already labeled ‘Unspecified’ for these records and ‘Unspecified’ subthemes occur across multiple theme groups, the blanks were imputed
-   with ‘Unspecified’ to maintain dashboard consistency.”
+🔹 Category
+Values: Normal, Extended, Random
+After EDA, “Random” was retained as a valid category (not noise).
 
--**Category:**
- → The Category column contained three major values: Normal, Extended, and Random. An exploratory check against Theme and Subtheme showed no meaningful relationship for ‘Random’. Given its substantial count,        ‘Random’ was retained as a separate valid category rather than merged or dropped
+🔹 Pieces (3,924 missing/zero)
+Zeros and blanks were meaningful for certain themes (Books, Gear).
+Created a helper column:
+
+Pieces_Status:
+=IF(OR(ISBLANK(A2),A2=0),"Not Applicable","Has Pieces")
+Used this for filtering and analysis instead of forcing imputations.
+
+🔹 Minifigs (~10,058 blanks)
+Expected for many sets → left as blank.
+Added:
+minifigs_status = "Has Minifigs" / "No Minifigs"
+
+🔹 Age Range (11,671 blanks)
+Left as-is but created:
+agerange_min_status = "Available" / "Missing"
+
+🔹 US_retailPrice (11,476 blanks)
+Fixed hidden blanks using:
+=IF(LEN(TRIM([@US_retailPrice]))=0,"Missing","Available")
 
 
-- **Pieces:** 3,924 missing values.  
-  → Decided **not to impute with `0`** since sets are supposed to have pieces.  
-  → Handling Zero & Blank Values in pieces Column, The pieces column contained both blank values and zeros, mainly for themes like Books and Gear where piece counts are not applicable.
-  → To make this consistent, I created a new column **Pieces_Status** using the formula: =IF(OR(ISBLANK(A2),A2=0),"Not Applicable","Has Pieces")
-    Has Pieces → when the set has a non-zero piece count, Not Applicable → when the value is blank or zero. This helped standardize non-buildable sets and simplified filtering, grouping, and visualization in
-    PivotTables and dashboards.
+Converted column to numeric to enable aggregation.
+🔹 Image & Thumbnail URLs
+Both missing together for specific sets → flagged using thumbnail_image_status.
 
-- **Minifigs:** ~10058 are blanks.  
-  → Missing values make sense (many sets have no minifigs).  
-  → Left blanks as is. I created additional status column (minifigs_status) for minifigs These flags help distinguish between records with valid data and those with blanks,
-    making downstream analysis more robust.
+3. Duplicates & Integrity Checks
+Searched and removed duplicate set_id entries
+Final row count preserved (18,458)
 
-- **Age Range:** 11,671 blanks.  
-  → Left missing, will analyze later to see if imputation is needed.
-  → To improve data quality and make missing values explicit, I created additional status column agerange_min_status. These flags helps in distinguishing between records with valid data and those with blanks,        making downstream analysis more robust.
-
-- **US_retailPrice:** 11,476 blanks, Added a helper column (`US_retailprice_status`) with the formula:
-  =IF(TRIM([@[US_retailPrice]])="", "Missing", "Available")
-  to classify values as either Missing or Available. Additionally,I converted US_retailPrice to a numeric datatype to ensure accurate aggregation and visualization in PivotTables and dashboards.
-  → Fixed formula issues caused by spaces in column name by using structured references correctly.
-  
-- **bricksetURL, thumbnailURL, and imageURL columns:**
-  →The dataset contains URLs for brickset, thumbnail, and image; thumbnailURL and imageURL have missing values for the same sets, while bricksetURL is complete
-  → During data cleaning, a helper column thumbnail_image_status was added to indicate whether both thumbnailURL and imageURL were missing for a set. All missing entries occur for the same sets.
- 
-### 3. **Duplicates & Consistency Checks**
-•	Checked and removed duplicates in set_id column.
-•	Confirmed counts before and after removal matched expected results.
-•	Kept full dataset (18,458 rows) to preserve data integrity.
-
-### 4. **Standardizing Columns**
-•	Replaced ? or Unnamed values in name column with "Unknown".
-•	Created helper columns to flag missingness for key fields:
+4. Standardization
+Replaced “?”, “Unnamed”, and similar placeholders with "Unknown"
+Cleaned inconsistent spacing with TRIM()
+Created status/flag columns for all key fields:
 missing_pieces
 missing_minifigs
-missing_agerange
 missing_price
- 
-• **Missing Value Strategy**
-•	sub_theme:
-o	Initially tried blank selection in Excel (Ctrl + G → Special → Blanks).
-o	Considered imputation but logically decided not to use 0 (since LEGO sets must have pieces).
+missing_agerange
+These helper fields greatly improved dashboard filtering.
 
-•	**minifigs**:
-o	Majority of values are missing → but this is expected (many LEGO sets don’t include minifigs).
-o	Decision: leave blanks as "0" or "No Minifigs" depending on downstream use.
-•	agerange_min:
-o	Noted many missing values but verified valid year range of LEGO sets.
-o	No imputation applied yet.
-•	US_retailPrice:
-o	Found hidden blanks (some cells look empty but aren’t truly blank).
-o	Switched to:
-o	=IF(LEN(TRIM([@US_retailPrice]))=0,"Missing","Available") to correctly flag missing values.
+**📊 Exploratory Analysis (Pivot Tables)**
+**Key insights:**
+1. Price Trends
+Serious Play has the highest average price
+Star Wars continues to release the highest-priced sets
+Decade-wise average price steadily increases over time
 
-• Data Type Adjustments
-  Converted columns to proper datatypes:
-o	bricksetURL, thumbnailURL, imageURL → set as General (URL links) for uniform handling.
-  Checked numeric columns like pieces, minifigs, and US_retailPrice to ensure proper numeric formatting.
+2. Theme Popularity
+Gear has the highest number of sets overall
+Duplo is consistently the second most released theme
+Star Wars remains a dominant, high-value product line
 
-### 5. Quality Check / Notes for Next Steps
-•	Be mindful: adding many derived columns may increase table size but is fine during cleaning — drop or archive derived columns later if needed.
-•	Potential next steps:
-o	Handle missing values for modeling (decide on 0, "Missing", median, or leave as null depending on the column).
-o	Consider feature engineering (e.g., price per piece, minifigs per set).
-o	Validate outliers (e.g., unusually high prices or piece counts).
-o	Standardize categorical columns (e.g., theme, sub_theme).
+3. Decade-Level Observations
+1970s–1990s → Train series had high maximum prices
+2000s → Star Wars becomes a key premium line
+2010s → Serious Play emerges as a high-avg-price theme
+2020s → Icons and Minifigs themes rise
 
-**Outcome after above steps**
-•	All key columns reviewed.
-•	Missing data assessed with logical reasoning per column.
-•	Data types standardized for URL and numeric fields.
-•	Missing value flagging formulas refined.
+📈 Excel Dashboard
+The final dashboard includes:
+Filters
+Year
+Theme
+Sub-theme
+Category
+Theme Group
+Decade
+Visualizations
+Clustered Column Chart
+Average/Max/Min Price per Theme
+Decade Trend Line
+Average price evolution over time
+Scatter Plot
+Pieces vs. Price (value assessment)
+Theme Popularity Bar Chart
+Count of sets per theme
+KPI Cards
+Total Number of Sets
+Highest Priced Set
+Lowest Priced Set
+Average Price
+Average Minimum Age
+Theme with Highest Count
+Formula:
+=XLOOKUP(MAX(COUNTIF(ThemeRange,ThemeRange)),
+COUNTIF(ThemeRange,ThemeRange),
+ThemeRange)
 
+📦** Files Included**
+cleaned_lego_dataset.xlsx — Fully cleaned dataset
+lego_dashboard.xlsx — Interactive Excel dashboard
+raw_dataset.csv — Original file
+
+**📘 Learnings**
+CSV files do not preserve formatting, formulas, or data types
+→ switched to .xlsx for reliable data handling
+Structured references dramatically reduce formula errors
+Missingness must be treated based on business meaning, not blindly imputed
+Helper/status columns make dashboards far more robust
+Excel is powerful enough for large-scale analytical workflows when structured properly
+
+**🔚 Conclusion**
+This project demonstrates end-to-end Excel-based data analytics:
+✔ Data cleaning
+✔ Missing value strategy
+✔ Feature engineering
+✔ Pivot-table-based EDA
+✔ Interactive dashboards
+✔ Business insights
+✔ Clear documentation
+
+Perfect for showcasing data analyst skills using a real-world dataset.
