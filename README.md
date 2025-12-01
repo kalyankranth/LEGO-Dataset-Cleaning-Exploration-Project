@@ -1,4 +1,4 @@
-***LEGO Dataset — Cleaning, Exploration & Excel Dashboard Project***
+**LEGO Dataset — Cleaning, Exploration & Excel Dashboard Project**
 **LEGO sets dataset (1970–2022): End-to-end data cleaning, exploratory analysis, and dashboarding in Excel**
 **📌 Project Overview**
 This project focuses on cleaning, organizing, analyzing, and visualizing a large LEGO dataset containing 18,458 sets released between 1970 and 2022.
