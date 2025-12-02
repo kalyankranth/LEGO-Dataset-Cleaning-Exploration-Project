@@ -176,6 +176,9 @@ Average Price
 Average Minimum Age
 Theme with Highest Count.
 
+<img width="537" height="676" alt="image" src="https://github.com/user-attachments/assets/cbfa1649-4ac9-4b0b-96fa-b540635b86bf" />
+
+
 **Files Included:**
 
 1.lego_dashboard.xlsx — Interactive Excel dashboard, with cleaned dataset, insights, dashboard and detailed cleaing steps
@@ -203,5 +206,26 @@ This project demonstrates my end-to-end Excel-based data analytics like _**Data 
 1.Excel sheets are locked to preserve formatting and formulas. Data remains fully viewable.
 
 2.The above dataset is from Brickset / Rebrickable style datasets.
+
+3.The current folder has below structure 
+lego-data-analysis
+
+ ┣ 📂 data
+ 
+ │   ┣ lego_sets_raw.csv
+ 
+ │   ┗ lego_sets_cleaned.xlsx
+ 
+ ┣ 📂 images
+ 
+ │   ┣ thumbnail.png
+ 
+ │   ┗ dashboard_preview.png
+ 
+ ┣ README.md
+ 
+ ┗ LICENSE
+
+
 
 
