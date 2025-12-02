@@ -199,6 +199,9 @@ Theme with Highest Count.
 This project demonstrates my end-to-end Excel-based data analytics like _**Data cleaning, Missing value strategy, Feature engineering, Pivot-table-based EDA, Interactive dashboards, Business insights, Clear documentation.**_
 
 **Note:**
-“Excel sheets are locked to preserve formatting and formulas. Data remains fully viewable.”
+
+1.Excel sheets are locked to preserve formatting and formulas. Data remains fully viewable.
+
+2.The above dataset is from Brickset / Rebrickable style datasets.
 
 
