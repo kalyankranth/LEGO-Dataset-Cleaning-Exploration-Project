@@ -1,12 +1,16 @@
 **LEGO Dataset — Cleaning, Exploration & Excel Dashboard Project**
+<img width="1536" height="324" alt="image" src="https://github.com/user-attachments/assets/0f3de237-b4ec-4dd4-bbe5-0412f3db7d7e" />
+
+
 
 **LEGO sets dataset (1970–2022): End-to-end data cleaning, exploratory analysis, and dashboarding in Excel**
 
-**📌 Project Overview**
+**📌 Project Overview:**
+
 This project focuses on cleaning, organizing, analyzing, and visualizing a large LEGO dataset containing 18,458 sets released between 1970 and 2022.
 The goal was to transform raw, inconsistent data into a high-quality analytical dataset and build an interactive Excel dashboard that reveals pricing trends, theme popularity, and product evolution over time.
 
-**📁 Dataset Description**
+**📁 Dataset Description:**
 
 The dataset includes information such as:
 
@@ -42,7 +46,7 @@ The dataset includes information such as:
   
 - Inconsistent formatting across columns
 
-**Data Cleaning Process**
+**Data Cleaning Process:**
 
 The cleaning was completed entirely in Excel using formulas, structured references, helper columns, and consistent validation steps.
 Below is the professional summary included in the README.
@@ -172,13 +176,13 @@ Average Price
 Average Minimum Age
 Theme with Highest Count.
 
-**Files Included**
+**Files Included:**
 
 1.lego_dashboard.xlsx — Interactive Excel dashboard, with cleaned dataset, insights, dashboard and detailed cleaing steps
 
 2.raw_dataset.csv — Original file
 
-**📘 Learnings**
+**📘 Learnings:**
 
 - CSV files do not preserve formatting, formulas, or data types, so switched to .xlsx for reliable data handling
 
@@ -190,8 +194,11 @@ Theme with Highest Count.
 
 - Excel is powerful enough for large-scale analytical workflows when structured properly
 
-**🔚 Conclusion**
+**🔚 Conclusion:**
 
 This project demonstrates my end-to-end Excel-based data analytics like _**Data cleaning, Missing value strategy, Feature engineering, Pivot-table-based EDA, Interactive dashboards, Business insights, Clear documentation.**_
+
+**Note:**
+“Excel sheets are locked to preserve formatting and formulas. Data remains fully viewable.”
 
 
