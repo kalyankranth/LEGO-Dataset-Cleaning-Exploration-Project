@@ -203,7 +203,8 @@ This project demonstrates my end-to-end Excel-based data analytics like _**Data 
 
 **Note:**
 
-1.Excel sheets are locked to preserve formatting and formulas. Data remains fully viewable.
+1.Excel sheets are locked to preserve formatting and formulas. Data remains fully viewable. Excel dashboards with slicers/charts may not render correctly on GitHub preview.
+Please download the file to view the full interactive dashboard.
 
 2.The above dataset is from Brickset / Rebrickable style datasets.
 
